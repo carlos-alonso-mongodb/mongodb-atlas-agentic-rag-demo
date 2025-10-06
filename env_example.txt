@@ -1,0 +1,6 @@
+MONGODB_URI="mongodb+srv://<username>:<password>@<cluster>.mongodb.net/"
+OPENAI_API_KEY="<your-openai-api-key>"
+DATABASE_NAME="ai_agent_db"
+EMBEDDINGS_COLLECTION="embeddings"
+MEMORY_COLLECTION="chat_history"
+
