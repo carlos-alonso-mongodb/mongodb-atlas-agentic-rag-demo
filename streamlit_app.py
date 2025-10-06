@@ -11,8 +11,7 @@ import time
 
 # Page configuration
 st.set_page_config(
-    page_title="MongoDB Atlas Agentic RAG Demo",
-    page_icon="🤖",
+    page_title="MongoDB Agentic RAG Demo",
     layout="wide",
     initial_sidebar_state="expanded"
 )
@@ -74,41 +73,41 @@ def main():
     initialize_session_state()
     
     # Header
-    st.markdown('<h1 class="main-header">🤖 MongoDB Atlas Agentic RAG Demo</h1>', unsafe_allow_html=True)
+    st.markdown('<h1 class="main-header">MongoDB Atlas Agentic RAG Demo</h1>', unsafe_allow_html=True)
     st.markdown('<p class="sub-header">Intelligent AI Agent with Vector Search, Memory, and Multi-Tool Capabilities</p>', unsafe_allow_html=True)
     
     # Sidebar
     with st.sidebar:
-        st.header("🎛️ Control Panel")
+        st.header("Control Panel")
         
         # Session management
         st.subheader("Session Management")
         st.text(f"Session ID: {st.session_state.session_id[:8]}...")
         
-        if st.button("🆕 New Session"):
+        if st.button("New Session"):
             st.session_state.session_id = str(uuid.uuid4())
             st.session_state.messages = []
             st.rerun()
         
-        if st.button("🧹 Clear Memory"):
+        if st.button("Clear Memory"):
             clear_session_memory(st.session_state.session_id)
             st.session_state.messages = []
             st.success("Session memory cleared!")
             st.rerun()
         
         # Data ingestion
-        st.subheader("📚 Data Management")
+        st.subheader("Data Management")
         if not st.session_state.data_ingested:
-            if st.button("📥 Ingest Sample Data"):
+            if st.button("Ingest Sample Data"):
                 with st.spinner("Ingesting data and creating vector index..."):
                     if ingest_data():
                         st.session_state.data_ingested = True
-                        st.success("✅ Data ingested successfully!")
+                        st.success("Data ingested successfully!")
                     else:
-                        st.error("❌ Data ingestion failed!")
+                        st.error("Data ingestion failed!")
         
         # Available tools
-        st.subheader("🛠️ Available Tools")
+        st.subheader("Available Tools")
         tools = get_available_tools()
         for tool_name, tool_info in tools.items():
             with st.expander(tool_name.replace('_', ' ').title()):
@@ -116,7 +115,7 @@ def main():
                 st.write(f"**Parameters:** {', '.join(tool_info['parameters'])}")
         
         # Session statistics
-        st.subheader("📊 Session Statistics")
+        st.subheader("Session Statistics")
         try:
             context = analyze_conversation_context(st.session_state.session_id)
             if context.get('status') != 'no_history':
@@ -132,14 +131,14 @@ def main():
     col1, col2 = st.columns([3, 1])
     
     with col1:
-        st.header("💬 Chat Interface")
+        st.header("Chat Interface")
         
         # Chat messages
         for message in st.session_state.messages:
             if message["role"] == "user":
-                st.markdown(f'<div class="chat-message user-message">👤 <strong>You:</strong> {message["content"]}</div>', unsafe_allow_html=True)
+                st.markdown(f'<div class="chat-message user-message"><strong>You:</strong> {message["content"]}</div>', unsafe_allow_html=True)
             else:
-                st.markdown(f'<div class="chat-message assistant-message">🤖 <strong>Assistant:</strong> {message["content"]}</div>', unsafe_allow_html=True)
+                st.markdown(f'<div class="chat-message assistant-message"><strong>Assistant:</strong> {message["content"]}</div>', unsafe_allow_html=True)
         
         # Chat input
         user_input = st.chat_input("Ask me anything about MongoDB, or try a calculation...")
@@ -149,7 +148,7 @@ def main():
             st.session_state.messages.append({"role": "user", "content": user_input})
             
             # Generate response
-            with st.spinner("🤔 Thinking..."):
+            with st.spinner("Thinking..."):
                 try:
                     response = generate_response(st.session_state.session_id, user_input)
                     st.session_state.messages.append({"role": "assistant", "content": response})
@@ -158,7 +157,7 @@ def main():
                     st.error(f"Error generating response: {str(e)}")
     
     with col2:
-        st.header("🎯 Quick Actions")
+        st.header("Quick Actions")
         
         # Demo queries
         st.subheader("Try These Queries:")
@@ -171,9 +170,9 @@ def main():
         ]
         
         for query in demo_queries:
-            if st.button(f"💡 {query[:30]}...", key=f"demo_{query}"):
+            if st.button(f"{query[:30]}...", key=f"demo_{query}"):
                 st.session_state.messages.append({"role": "user", "content": query})
-                with st.spinner("🤔 Thinking..."):
+                with st.spinner("Thinking..."):
                     try:
                         response = generate_response(st.session_state.session_id, query)
                         st.session_state.messages.append({"role": "assistant", "content": response})
@@ -182,7 +181,7 @@ def main():
                         st.error(f"Error: {str(e)}")
         
         # Clear chat
-        if st.button("🗑️ Clear Chat"):
+        if st.button("Clear Chat"):
             st.session_state.messages = []
             st.rerun()
     
@@ -190,7 +189,7 @@ def main():
     st.markdown("---")
     st.markdown("""
     <div style="text-align: center; color: #666; font-size: 0.9rem;">
-        Built with MongoDB Atlas, OpenAI, and Streamlit | 
+        Built with MongoDB, OpenAI, and Streamlit | 
         <a href="https://www.mongodb.com/docs/atlas/atlas-vector-search/ai-agents/" target="_blank">Documentation</a>
     </div>
     """, unsafe_allow_html=True)
